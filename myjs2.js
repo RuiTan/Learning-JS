@@ -1,24 +1,94 @@
-function createStudent(name, score, grade) {
-    var student = new Object();
-    student.name = name;
-    student.score = score;
-    student.grade = grade;
-    //工厂模式下访问器属性初始化无效
-    Object.defineProperty(student, "access", {
+//字面量初始化对象
+// var stu = {
+//     name: "tanrui",
+//     _score: 80,
+//     grade: 4,
+// };
+// Object.defineProperty(stu, "score", {
+//     get:function () {
+//         return this._score;
+//     },
+//     set:function (newScore) {
+//         if (newScore<60){
+//             this.grade = 1;
+//         }
+//     }
+// });
+// console.log(stu);
+// stu.score = 50;
+// console.log(stu);
+
+//工厂模式创建对象
+// function createStudent(name, score, grade) {
+//     var student = new Object();
+//     student.name = name;
+//     student._score = score;
+//     student.grade = grade;
+//     Object.defineProperty(student, "score", {
+//         get:function () {
+//             return this._score;
+//         },
+//         set:function (score) {
+//             this._score = score;
+//             if (score<60){
+//                 this.grade = 1;
+//             }
+//         }
+//     })
+//     return student;
+// }
+// var stu1 = createStudent("tanrui", 80, 4);
+// var stu2 = createStudent("liyang", 90, 5);
+// console.log(stu1);
+// console.log(stu2);
+// stu1.score = 50;
+// console.log(stu1);
+
+//构造函数模式创建对象
+function Student(name, score, grade) {
+    this.name = name;
+    this._score = score;
+    this.grade = grade;
+    Object.defineProperty(this, "score", {
         get:function () {
-            return this.score;
+            return this._score;
         },
         set:function (score) {
+            this._score = score;
             if (score<60){
                 this.grade = 1;
             }
         }
     })
-    return student;
+    // Object.defineProperties(this, {
+    //     name:{
+    //         value: name
+    //     },
+    //     _score:{
+    //         value: score
+    //     },
+    //     grade:{
+    //         value: grade
+    //     },
+    //     score:{
+    //         get:function () {
+    //             return this._score;
+    //         },
+    //         set:function (score) {
+    //             this._score = score;
+    //             if (score<60){
+    //               this.grade = 1;
+    //           }
+    //         }
+    //     }
+    // })
 }
-var stu1 = createStudent("tanrui", 80, 4);
-var stu2 = createStudent("liyang", 90, 5);
-console.log(stu1);
+
+var stu2 = new Student("tanrui", 80, 4);
+var stu3 = new Student("liyang", 90, 5);
 console.log(stu2);
-stu1.score = 50;//证明了上述
-console.log(stu1);
+console.log(stu3);
+stu2.score = 50;
+console.log(stu2);
+console.log(Object.getOwnPropertyDescriptor(stu2, "score"));
+
